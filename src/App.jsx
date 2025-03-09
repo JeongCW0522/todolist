@@ -19,7 +19,7 @@ function App() {
   const [todos, setTodos] = useState(createBulkTodos);
     
 
-  const nextId = useRef(4);
+  const nextId = useRef(5);
 
   const onInsert = useCallback(
     value => {                  //입력된 value값을 todo배열 text값으로 설정
