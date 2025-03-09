@@ -3,19 +3,21 @@ import TodoInsert from './components/TodoInsert';
 import Todoplate from './components/TodoTemplate';
 import TodoList from './components/TodoList';
 
+function createBulkTodos() {
+  const array = [];
+  for (let i = 1; i <= 2500; i++) { // 초기값 설정
+    array.push({
+      id: i,
+      text: `할일 ${i}`, // 템플릿 리터럴 수정
+      checked: false,
+    });
+  }
+  return array;
+}
 
 function App() {
-  const [todos, setTodos] = useState([
-    {
-      id: 1, text: '리액트 기초 알아보기', checked: true,
-    },
-    {
-      id: 2, text: '컴포넌트 스타일링해 보기', checked: true,
-    },
-    {
-      id: 3, text: '일정 관리 앱 만들어 보기', checked: false,
-    }
-  ]);
+  const [todos, setTodos] = useState(createBulkTodos);
+    
 
   const nextId = useRef(4);
 
@@ -26,20 +28,20 @@ function App() {
         text: value,
         checked: false,
       };
-      setTodos(todos.concat(todo));
+      setTodos(todos => todos.concat(todo));
       nextId.current += 1;
     },
-    [todos],
+    [],
   );
   
   const onRemove = useCallback(id => {
-    setTodos(todos.filter(todo => todo.id !==id));
-  }, [todos]);
+    setTodos(todos => todos.filter(todo => todo.id !==id));
+  }, []);
 
   //체크시 수정
   const onToggle = useCallback(id => {           
-    setTodos(todos.map(todo => todo.id === id? { ...todo, checked: !todo.checked} : todo,),);
-  }, [todos],);     //해당 id를 가진 항목의 상태 반전 -> 기존 todo 객체 복사(...todo) 
+    setTodos(todos => todos.map(todo => todo.id === id? { ...todo, checked: !todo.checked} : todo,),);
+  }, [],);     //해당 id를 가진 항목의 상태 반전 -> 기존 todo 객체 복사(...todo) 
                     // -> checked를 현재 todo의 checked 반대 상태로 반전시킴
                     //같지 않다면 todo 그대로
 
